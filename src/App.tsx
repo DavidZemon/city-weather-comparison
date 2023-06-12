@@ -1,26 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Container} from "react-bootstrap";
+import 'highcharts/css/themes/dark-unica.css';
+import {CityName} from "./utils";
+import {MyChart} from "./MyChart";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    return (
+        <Container>
+            {
+                (
+                    [
+                        "St. Louis",
+                        "Atlanta",
+                        "Mobile"
+                    ] as CityName[]
+                )
+                    .map(
+                        (cityName) => <MyChart cityName={cityName} key={cityName}/>
+                    )
+            }
+        </Container>
+    );
 }
 
 export default App;
