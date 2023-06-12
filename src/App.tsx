@@ -4,43 +4,41 @@ import {CityName} from "./utils";
 import {MyChart, Range} from "./MyChart";
 
 function App() {
-    const [showApparent, setApparent] = useState(true);
-    const [showActual, setActual] = useState(false);
-    const [showHighs, setHighs] = useState(true);
-    const [showLows, setLows] = useState(false);
+    const [showApparentHighs, setApparent] = useState(true);
+    const [showActualHighs, setActual] = useState(false);
+    const [showActualLows, setHighs] = useState(true);
+    const [showApparentLows, setLows] = useState(false);
     const [red, setRed] = useState<Range>({color: "red", from: 100, to: 200});
     const [green, setGreen] = useState<Range>({color: "green", from: 65, to: 85});
     const [blue, setBlue] = useState<Range>({color: "blue", from: 35, to: -100});
 
     return (
-        <Container>
+        <Container fluid>
             <Row>
                 <Col>
-                    {showHighs && <Button onClick={() => setHighs(false)}>Hide Highs</Button>}
-                    {!showHighs && <Button onClick={() => setHighs(true)}>Show Highs</Button>}
+                    <Button onClick={() => setApparent(!showApparentHighs)}>
+                        {showApparentHighs ? "Hide" : "Show"} Apparent Highs
+                    </Button>
                 </Col>
+
                 <Col>
-                    {showLows && <Button onClick={() => setLows(false)}>Hide Lows</Button>}
-                    {!showLows && <Button onClick={() => setLows(true)}>Show Lows</Button>}
+                    <Button onClick={() => setLows(!showApparentLows)}>
+                        {showApparentLows ? "Hide" : "Show"} Apparent Lows
+                    </Button>
                 </Col>
             </Row>
 
             <Row>
                 <Col>
-                    {showApparent && <Button onClick={() => {
-                        setApparent(false)
-                    }}>Hide Apparent</Button>}
-                    {!showApparent && <Button onClick={() => {
-                        setApparent(true)
-                    }}>Show Apparent</Button>}
+                    <Button onClick={() => setActual(!showActualHighs)}>
+                        {showActualHighs ? "Hide" : "Show"} Actual Highs
+                    </Button>
                 </Col>
+
                 <Col>
-                    {showActual && <Button onClick={() => {
-                        setActual(false)
-                    }}>Hide Actual</Button>}
-                    {!showActual && <Button onClick={() => {
-                        setActual(true)
-                    }}>Show Actual</Button>}
+                    <Button onClick={() => setHighs(!showActualLows)}>
+                        {showActualLows ? "Hide" : "Show"} Actual Lows
+                    </Button>
                 </Col>
             </Row>
 
@@ -93,10 +91,10 @@ function App() {
                             <MyChart
                                 key={cityName}
                                 cityName={cityName}
-                                showApparent={showApparent}
-                                showActual={showActual}
-                                showHighs={showHighs}
-                                showLows={showLows}
+                                showApparentHighs={showApparentHighs}
+                                showApparentLows={showApparentLows}
+                                showActualHighs={showActualHighs}
+                                showActualLows={showActualLows}
                                 ranges={[red, green, blue]}
                             />
                     )

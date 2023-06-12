@@ -12,52 +12,44 @@ export interface Range {
 
 interface Props {
     cityName: CityName;
-    showApparent: boolean;
-    showActual: boolean;
-    showHighs: boolean;
-    showLows: boolean;
+    showApparentHighs: boolean;
+    showApparentLows: boolean;
+    showActualHighs: boolean;
+    showActualLows: boolean;
     ranges: Range[];
 }
 
 export function MyChart(
     {
         cityName,
-        showApparent,
-        showActual,
-        showHighs,
-        showLows,
+        showApparentHighs,
+        showApparentLows,
+        showActualHighs,
+        showActualLows,
         ranges,
     }: Props
 ) {
     const [results, setResults] = useState<Results | undefined>();
 
-    const data: { name: string, data: number[] }[] = [];
-
-    if (showApparent && showHighs && results?.daily?.apparent_temperature_max)
-        data.push({
+    const data: { name: string, data: number[] }[] = [
+        {
             name: "Apparent High",
-            data: results?.daily?.apparent_temperature_max
-        });
-
-    if (showApparent && showLows && results?.daily?.apparent_temperature_min)
-        if (showLows) {
-            data.push({
-                name: "Apparent Low",
-                data: results?.daily?.apparent_temperature_min
-            });
-        }
-
-    if (showActual && showHighs && results?.daily?.temperature_2m_max)
-        data.push({
+            data: showApparentHighs && results?.daily ? results?.daily?.apparent_temperature_max : []
+        },
+        {
+            name: "Apparent Low",
+            data: showApparentLows && results?.daily ? results?.daily?.apparent_temperature_min : []
+        },
+        {
             name: "High",
-            data: results?.daily?.temperature_2m_max
-        });
-
-    if (showActual && showLows && results?.daily?.temperature_2m_min)
-        data.push({
+            data: showActualHighs && results?.daily ? results?.daily?.temperature_2m_max : []
+        },
+        {
             name: "Low",
-            data: results?.daily?.temperature_2m_min
-        });
+            data: showActualLows && results?.daily ? results?.daily?.temperature_2m_min : []
+        },
+    ];
+
 
     return <Row>
         {!results && <Button onClick={async () => {
