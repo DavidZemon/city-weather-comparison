@@ -5,6 +5,13 @@
 /.pnp
 .pnp.js
 
+/.yarn
+/.pnp.cjs
+/.pnp.loader.mjs
+!/.yarn/releases/*
+
+/.idea
+
 # testing
 /coverage
 
