@@ -5858,13 +5858,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-react@npm:^1.1.7":
-  version: 1.1.7
-  resolution: "eslint-config-react@npm:1.1.7"
-  checksum: 15d3d7f78e720c225ac983fb6985825b561941f1c930116c96f8ab8600eb65db603f5ef200a10fabd51f8ef564c107e8eb0d3f69609bfdedfb50290227249a70
-  languageName: node
-  linkType: hard
-
 "eslint-import-resolver-node@npm:^0.3.7":
   version: 0.3.7
   resolution: "eslint-import-resolver-node@npm:0.3.7"
@@ -6065,7 +6058,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.3.0":
+"eslint@npm:^8.3.0, eslint@npm:^8.42.0":
   version: 8.42.0
   resolution: "eslint@npm:8.42.0"
   dependencies:
@@ -12924,7 +12917,8 @@ __metadata:
     "@types/react-dom": ^18.2.4
     axios: ^1.4.0
     bootswatch: ^5.3.0
-    eslint-config-react: ^1.1.7
+    eslint: ^8.42.0
+    eslint-config-react-app: ^7.0.1
     highcharts: ^11.1.0
     highcharts-react-official: ^3.2.0
     react: ^18.2.0
