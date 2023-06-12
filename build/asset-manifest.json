@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.c316889c.css",
-    "main.js": "/static/js/main.a6c49aea.js",
-    "index.html": "/index.html",
-    "main.c316889c.css.map": "/static/css/main.c316889c.css.map",
-    "main.a6c49aea.js.map": "/static/js/main.a6c49aea.js.map"
+    "main.css": "/city-weather-comparison/static/css/main.c316889c.css",
+    "main.js": "/city-weather-comparison/static/js/main.a6c49aea.js",
+    "index.html": "/city-weather-comparison/index.html",
+    "main.c316889c.css.map": "/city-weather-comparison/static/css/main.c316889c.css.map",
+    "main.a6c49aea.js.map": "/city-weather-comparison/static/js/main.a6c49aea.js.map"
   },
   "entrypoints": [
     "static/css/main.c316889c.css",
