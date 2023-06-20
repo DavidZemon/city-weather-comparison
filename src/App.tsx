@@ -1,6 +1,14 @@
 import { useState } from "react";
-import { Accordion, Col, Container, Form, Row } from "react-bootstrap";
-import { CityName } from "./utils";
+import {
+  Accordion,
+  Button,
+  Col,
+  Container,
+  Form,
+  Row,
+  Spinner,
+} from "react-bootstrap";
+import { CityName, get, Results } from "./utils";
 import { MyChart, Range } from "./MyChart";
 
 function App() {
@@ -8,17 +16,20 @@ function App() {
   const [showApparentLows, setShowApparentLows] = useState(true);
   const [showHighs, setHighs] = useState(false);
   const [showLows, setLows] = useState(false);
-  const [red, setRed] = useState<Range>({ color: "red", from: 100, to: 200 });
+  const [red, setRed] = useState<Range>({ color: "red", low: 100, high: 200 });
   const [green, setGreen] = useState<Range>({
     color: "green",
-    from: 65,
-    to: 85,
+    low: 65,
+    high: 85,
   });
   const [blue, setBlue] = useState<Range>({
     color: "blue",
-    from: 35,
-    to: -100,
+    low: -100,
+    high: 35,
   });
+
+  const [data, setData] = useState<{ [k in CityName]: Results } | undefined>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <Container>
@@ -33,7 +44,7 @@ function App() {
                 title="Show daily apparent high temperatures (heat index / wind chill)"
                 label="Daily Apparent Highs"
                 defaultChecked={showApparentHighs}
-                onClick={(e) => setApparentHighs(!showApparentHighs)}
+                onClick={() => setApparentHighs(!showApparentHighs)}
               />
 
               <Form.Switch
@@ -41,7 +52,7 @@ function App() {
                 title="Show daily apparent low temperatures (heat index / wind chill)"
                 label="Daily Apparent Lows"
                 defaultChecked={showApparentLows}
-                onClick={(e) => setShowApparentLows(!showApparentLows)}
+                onClick={() => setShowApparentLows(!showApparentLows)}
               />
 
               <Form.Switch
@@ -49,7 +60,7 @@ function App() {
                 title="Show daily high temperatures"
                 label="Daily Highs"
                 defaultChecked={showHighs}
-                onClick={(e) => setHighs(!showHighs)}
+                onClick={() => setHighs(!showHighs)}
               />
 
               <Form.Switch
@@ -57,7 +68,7 @@ function App() {
                 title="Show daily low temperatures"
                 label="Daily Lows"
                 defaultChecked={showLows}
-                onClick={(e) => setLows(!showLows)}
+                onClick={() => setLows(!showLows)}
               />
             </Form>
           </Accordion.Body>
@@ -85,11 +96,11 @@ function App() {
 
                 <Col>
                   <input
-                    value={value.from}
+                    value={value.low}
                     onChange={(e) =>
                       setter({
                         ...value,
-                        from: Number.parseInt(e.target.value.trim()),
+                        low: Number.parseInt(e.target.value.trim()),
                       })
                     }
                   />
@@ -97,11 +108,11 @@ function App() {
 
                 <Col>
                   <input
-                    value={value.to}
+                    value={value.high}
                     onChange={(e) =>
                       setter({
                         ...value,
-                        to: Number.parseInt(e.target.value.trim()),
+                        high: Number.parseInt(e.target.value.trim()),
                       })
                     }
                   />
@@ -115,19 +126,45 @@ function App() {
           <Accordion.Header>Data</Accordion.Header>
 
           <Accordion.Body>
-            {(["St. Louis", "Atlanta", "Mobile"] as CityName[]).map(
-              (cityName) => (
-                <MyChart
-                  key={cityName}
-                  cityName={cityName}
-                  showApparentHighs={showApparentHighs}
-                  showApparentLows={showApparentLows}
-                  showActualHighs={showHighs}
-                  showActualLows={showLows}
-                  ranges={[red, green, blue]}
-                />
-              )
-            )}
+            <>
+              {!!data || (
+                <Button
+                  onClick={async () => {
+                    setLoading(true);
+                    const data = Object.fromEntries(
+                      await Promise.all(
+                        (["St. Louis", "Atlanta", "Mobile"] as CityName[]).map(
+                          async (cityName) => {
+                            const result = await get({ cityName });
+                            return [cityName, result];
+                          }
+                        )
+                      )
+                    );
+                    setLoading(false);
+                    setData(data);
+                  }}
+                >
+                  {loading ? <Spinner animation="border" /> : "Load data"}
+                </Button>
+              )}
+
+              {!!data &&
+                (["St. Louis", "Atlanta", "Mobile"] as CityName[]).map(
+                  (cityName) => (
+                    <MyChart
+                      key={cityName}
+                      cityName={cityName}
+                      results={data[cityName]}
+                      showApparentHighs={showApparentHighs}
+                      showApparentLows={showApparentLows}
+                      showActualHighs={showHighs}
+                      showActualLows={showLows}
+                      ranges={[red, green, blue]}
+                    />
+                  )
+                )}
+            </>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
