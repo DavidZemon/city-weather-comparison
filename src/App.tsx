@@ -1,46 +1,52 @@
 import React, {useState} from 'react';
-import {Button, Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {CityName} from "./utils";
 import {MyChart, Range} from "./MyChart";
 
 function App() {
-    const [showApparentHighs, setApparent] = useState(true);
-    const [showActualHighs, setActual] = useState(false);
-    const [showActualLows, setHighs] = useState(true);
-    const [showApparentLows, setLows] = useState(false);
+    const [showApparentHighs, setApparentHighs] = useState(true);
+    const [showApparentLows, setShowApparentLows] = useState(true);
+    const [showHighs, setHighs] = useState(false);
+    const [showLows, setLows] = useState(false);
     const [red, setRed] = useState<Range>({color: "red", from: 100, to: 200});
     const [green, setGreen] = useState<Range>({color: "green", from: 65, to: 85});
     const [blue, setBlue] = useState<Range>({color: "blue", from: 35, to: -100});
 
     return (
-        <Container fluid>
-            <Row>
-                <Col>
-                    <Button onClick={() => setApparent(!showApparentHighs)}>
-                        {showApparentHighs ? "Hide" : "Show"} Apparent Highs
-                    </Button>
-                </Col>
+        <Container>
+            <Form>
+                <Form.Switch
+                    id='apparentHighs'
+                    title='Show daily apparent high temperatures (heat index / wind chill)'
+                    label='Daily Apparent Highs'
+                    defaultChecked={showApparentHighs}
+                    onClick={(e) => setApparentHighs(!showApparentHighs)}
+                />
 
-                <Col>
-                    <Button onClick={() => setLows(!showApparentLows)}>
-                        {showApparentLows ? "Hide" : "Show"} Apparent Lows
-                    </Button>
-                </Col>
-            </Row>
+                <Form.Switch
+                    id='apparentLows'
+                    title='Show daily apparent low temperatures (heat index / wind chill)'
+                    label='Daily Apparent Lows'
+                    defaultChecked={showApparentLows}
+                    onClick={(e) => setShowApparentLows(!showApparentLows)}
+                />
 
-            <Row>
-                <Col>
-                    <Button onClick={() => setActual(!showActualHighs)}>
-                        {showActualHighs ? "Hide" : "Show"} Actual Highs
-                    </Button>
-                </Col>
+                <Form.Switch
+                    id='highs'
+                    title='Show daily high temperatures'
+                    label='Daily Highs'
+                    defaultChecked={showHighs}
+                    onClick={(e) => setHighs(!showHighs)}
+                />
 
-                <Col>
-                    <Button onClick={() => setHighs(!showActualLows)}>
-                        {showActualLows ? "Hide" : "Show"} Actual Lows
-                    </Button>
-                </Col>
-            </Row>
+                <Form.Switch
+                    id='lows'
+                    title='Show daily low temperatures'
+                    label='Daily Lows'
+                    defaultChecked={showLows}
+                    onClick={(e) => setLows(!showLows)}
+                />
+            </Form>
 
             {
                 ([
@@ -93,8 +99,8 @@ function App() {
                                 cityName={cityName}
                                 showApparentHighs={showApparentHighs}
                                 showApparentLows={showApparentLows}
-                                showActualHighs={showActualHighs}
-                                showActualLows={showActualLows}
+                                showActualHighs={showHighs}
+                                showActualLows={showLows}
                                 ranges={[red, green, blue]}
                             />
                     )
