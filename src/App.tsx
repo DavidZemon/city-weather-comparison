@@ -8,8 +8,10 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import { CityName, get, Results } from "./utils";
-import { MyChart, Range } from "./MyChart";
+import { CityName, Data, get } from "./utils";
+import { Range } from "./TempOverTimeChart";
+import { ChartData } from "./ChartData";
+import { SummaryChart } from "./SummaryChart";
 
 function App() {
   const [showApparentHighs, setApparentHighs] = useState(true);
@@ -28,11 +30,37 @@ function App() {
     high: 35,
   });
 
-  const [data, setData] = useState<{ [k in CityName]: Results } | undefined>();
+  const [data, setData] = useState<Data | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <Container>
+      <Button
+        onClick={async () => {
+          setLoading(true);
+          const data = Object.fromEntries(
+            await Promise.all(
+              (["St. Louis", "Atlanta", "Mobile"] as CityName[]).map(
+                async (cityName) => {
+                  const result = await get({ cityName });
+                  return [cityName, result];
+                }
+              )
+            )
+          );
+          setLoading(false);
+          setData(data);
+        }}
+      >
+        {loading ? (
+          <Spinner animation="border" />
+        ) : data ? (
+          "Reload data"
+        ) : (
+          "Load data"
+        )}
+      </Button>
+
       <Accordion defaultActiveKey={["data"]} alwaysOpen={true}>
         <Accordion.Item eventKey="dataConfig">
           <Accordion.Header>Data Configuration</Accordion.Header>
@@ -83,8 +111,8 @@ function App() {
                 [green, setGreen],
                 [blue, setBlue],
               ] as [Range, (range: Range) => void][]
-            ).map(([value, setter]) => (
-              <Row>
+            ).map(([value, setter], index) => (
+              <Row key={`range-${index}`}>
                 <Col>
                   <input
                     value={value.color}
@@ -122,51 +150,32 @@ function App() {
           </Accordion.Body>
         </Accordion.Item>
 
-        <Accordion.Item eventKey="data">
-          <Accordion.Header>Data</Accordion.Header>
+        {data && (
+          <Accordion.Item eventKey="charts">
+            <Accordion.Header>Charts</Accordion.Header>
 
-          <Accordion.Body>
-            <>
-              {!!data || (
-                <Button
-                  onClick={async () => {
-                    setLoading(true);
-                    const data = Object.fromEntries(
-                      await Promise.all(
-                        (["St. Louis", "Atlanta", "Mobile"] as CityName[]).map(
-                          async (cityName) => {
-                            const result = await get({ cityName });
-                            return [cityName, result];
-                          }
-                        )
-                      )
-                    );
-                    setLoading(false);
-                    setData(data);
-                  }}
-                >
-                  {loading ? <Spinner animation="border" /> : "Load data"}
-                </Button>
-              )}
+            <Accordion.Body>
+              <ChartData
+                data={data}
+                showApparentHighs={showApparentHighs}
+                showApparentLows={showApparentLows}
+                showHighs={showHighs}
+                showLows={showLows}
+                ranges={[red, green, blue]}
+              />
+            </Accordion.Body>
+          </Accordion.Item>
+        )}
 
-              {!!data &&
-                (["St. Louis", "Atlanta", "Mobile"] as CityName[]).map(
-                  (cityName) => (
-                    <MyChart
-                      key={cityName}
-                      cityName={cityName}
-                      results={data[cityName]}
-                      showApparentHighs={showApparentHighs}
-                      showApparentLows={showApparentLows}
-                      showActualHighs={showHighs}
-                      showActualLows={showLows}
-                      ranges={[red, green, blue]}
-                    />
-                  )
-                )}
-            </>
-          </Accordion.Body>
-        </Accordion.Item>
+        {data && (
+          <Accordion.Item eventKey="summary">
+            <Accordion.Header>Summary</Accordion.Header>
+
+            <Accordion.Body>
+              <SummaryChart data={data} ranges={[red, green, blue]} />
+            </Accordion.Body>
+          </Accordion.Item>
+        )}
       </Accordion>
     </Container>
   );

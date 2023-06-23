@@ -26,6 +26,8 @@ const CITY_MAPPING: { [k in CityName]: CityMeta } = {
   },
 };
 
+export type Data = { [k in CityName]: Results };
+
 const BASE_URL = "https://archive-api.open-meteo.com/v1";
 
 export interface GetParams {
