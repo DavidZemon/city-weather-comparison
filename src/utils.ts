@@ -1,28 +1,44 @@
 import Axios from "axios";
 
-export type CityName = "St. Louis" | "Atlanta" | "Mobile";
+export type CityName = "St. Louis" | "Atlanta" | "Mobile" | "Raleigh" | "Omaha";
 
 interface CityMeta {
   latitude: string;
   longitude: string;
   timezone: string;
+  color: string;
 }
 
-const CITY_MAPPING: { [k in CityName]: CityMeta } = {
+export const CITY_MAPPING: { [k in CityName]: CityMeta } = {
   "St. Louis": {
     latitude: "38.63",
     longitude: "-90.20",
     timezone: "America/Chicago",
+    color: "blue",
   },
   Atlanta: {
     latitude: "33.75",
     longitude: "-84.39",
     timezone: "America/New_York",
+    color: "purple",
   },
   Mobile: {
     latitude: "30.69",
     longitude: "-88.04",
     timezone: "America/Chicago",
+    color: "red",
+  },
+  Raleigh: {
+    latitude: "35.77",
+    longitude: "-78.64",
+    timezone: "America/New_York",
+    color: "green",
+  },
+  Omaha: {
+    latitude: "41.26",
+    longitude: "-95.94",
+    timezone: "America/Chicago",
+    color: "#ADD8E6",
   },
 };
 

@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/city-weather-comparison/static/css/main.c316889c.css",
-    "main.js": "/city-weather-comparison/static/js/main.7bb98032.js",
+    "main.js": "/city-weather-comparison/static/js/main.1ecbeb23.js",
     "index.html": "/city-weather-comparison/index.html",
     "main.c316889c.css.map": "/city-weather-comparison/static/css/main.c316889c.css.map",
-    "main.7bb98032.js.map": "/city-weather-comparison/static/js/main.7bb98032.js.map"
+    "main.1ecbeb23.js.map": "/city-weather-comparison/static/js/main.1ecbeb23.js.map"
   },
   "entrypoints": [
     "static/css/main.c316889c.css",
-    "static/js/main.7bb98032.js"
+    "static/js/main.1ecbeb23.js"
   ]
 }

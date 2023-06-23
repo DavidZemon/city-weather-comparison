@@ -8,7 +8,7 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import { CityName, Data, get } from "./utils";
+import { CITY_MAPPING, CityName, Data, get } from "./utils";
 import { Range } from "./TempOverTimeChart";
 import { ChartData } from "./ChartData";
 import { SummaryChart } from "./SummaryChart";
@@ -40,7 +40,7 @@ function App() {
           setLoading(true);
           const data = Object.fromEntries(
             await Promise.all(
-              (["St. Louis", "Atlanta", "Mobile"] as CityName[]).map(
+              (Object.keys(CITY_MAPPING) as CityName[]).map(
                 async (cityName) => {
                   const result = await get({ cityName });
                   return [cityName, result];

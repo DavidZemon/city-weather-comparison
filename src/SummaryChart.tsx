@@ -1,4 +1,4 @@
-import { CityName, Data } from "./utils";
+import { CITY_MAPPING, CityName, Data } from "./utils";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import { Range } from "./TempOverTimeChart";
@@ -7,12 +7,6 @@ interface Props {
   data?: Data;
   ranges: Range[];
 }
-
-const CITY_COLOR_MAP: { [k in CityName]: string } = {
-  "St. Louis": "blue",
-  Atlanta: "purple",
-  Mobile: "red",
-};
 
 function createFilter(range: Range) {
   return (temp: number) => temp <= range.high && temp >= range.low;
@@ -75,7 +69,7 @@ export function SummaryChart({ data, ranges }: Props) {
             },
           },
           legend: { layout: "vertical" },
-          colors: cityNames.map((name) => CITY_COLOR_MAP[name]),
+          colors: cityNames.map((name) => CITY_MAPPING[name].color),
           series,
         }}
       />

@@ -1,4 +1,4 @@
-import { CityName, Data } from "./utils";
+import { CITY_MAPPING, CityName, Data } from "./utils";
 import { TempOverTimeChart, Range } from "./TempOverTimeChart";
 
 interface Props {
@@ -21,7 +21,7 @@ export function ChartData({
   return (
     <>
       {!!data &&
-        (["St. Louis", "Atlanta", "Mobile"] as CityName[]).map((cityName) => (
+        (Object.keys(CITY_MAPPING) as CityName[]).map((cityName) => (
           <TempOverTimeChart
             key={cityName}
             cityName={cityName}
