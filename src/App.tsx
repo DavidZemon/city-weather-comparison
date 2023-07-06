@@ -151,8 +151,18 @@ function App() {
         </Accordion.Item>
 
         {data && (
+          <Accordion.Item eventKey="summary">
+            <Accordion.Header>Summary</Accordion.Header>
+
+            <Accordion.Body>
+              <SummaryChart data={data} ranges={[red, green, blue]} />
+            </Accordion.Body>
+          </Accordion.Item>
+        )}
+
+        {data && (
           <Accordion.Item eventKey="charts">
-            <Accordion.Header>Charts</Accordion.Header>
+            <Accordion.Header>Details</Accordion.Header>
 
             <Accordion.Body>
               <ChartData
@@ -163,16 +173,6 @@ function App() {
                 showLows={showLows}
                 ranges={[red, green, blue]}
               />
-            </Accordion.Body>
-          </Accordion.Item>
-        )}
-
-        {data && (
-          <Accordion.Item eventKey="summary">
-            <Accordion.Header>Summary</Accordion.Header>
-
-            <Accordion.Body>
-              <SummaryChart data={data} ranges={[red, green, blue]} />
             </Accordion.Body>
           </Accordion.Item>
         )}
