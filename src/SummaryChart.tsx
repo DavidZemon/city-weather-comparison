@@ -68,7 +68,6 @@ export function SummaryChart({ data, ranges }: Props) {
               groupPadding: 0.1,
             },
           },
-          legend: { layout: "vertical" },
           colors: cityNames.map((name) => CITY_MAPPING[name].color),
           series,
         }}
