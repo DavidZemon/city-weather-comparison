@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-export type CityName = "St. Louis" | "Atlanta" | "Mobile" | "Vancouver";
+export type CityName = "St. Louis" | "Atlanta" | "Mobile" | "Vancouver" | "Ann Arbor";
 
 const DEFAULT_START_DATE = (() => {
   let date = new Date();
@@ -41,6 +41,12 @@ export const CITY_MAPPING: { [k in CityName]: CityMeta } = {
     timezone: "America/Chicago",
     color: "green",
   },
+  "Ann Arbor": {
+    latitude: "42.2776",
+    longitude: "-83.7409",
+    timezone: "America/Chicago",
+    color: "yellow"
+  }
 };
 
 export type Data = { [k in CityName]: Results };
