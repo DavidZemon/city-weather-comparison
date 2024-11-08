@@ -1,6 +1,13 @@
 import Axios from "axios";
 
-export type CityName = "St. Louis" | "Atlanta" | "Mobile" | "Raleigh" | "Omaha";
+export type CityName = "St. Louis" | "Atlanta" | "Mobile" | "Vancouver";
+
+const DEFAULT_START_DATE = (() => {
+  let date = new Date();
+  date.setFullYear(new Date().getFullYear() - 1);
+  return date.toISOString().split("T")[0];
+})();
+const DEFAULT_END_DATE = new Date().toISOString().split("T")[0];
 
 interface CityMeta {
   latitude: string;
@@ -28,17 +35,11 @@ export const CITY_MAPPING: { [k in CityName]: CityMeta } = {
     timezone: "America/Chicago",
     color: "red",
   },
-  Raleigh: {
-    latitude: "35.77",
-    longitude: "-78.64",
-    timezone: "America/New_York",
-    color: "green",
-  },
-  Omaha: {
-    latitude: "41.26",
-    longitude: "-95.94",
+  Vancouver: {
+    latitude: "49.2497",
+    longitude: "-123.1193",
     timezone: "America/Chicago",
-    color: "#ADD8E6",
+    color: "green",
   },
 };
 
@@ -69,8 +70,8 @@ export interface Results {
 
 export async function get({
   cityName,
-  startDate = "2022-06-01",
-  endDate = "2023-06-01",
+  startDate = DEFAULT_START_DATE,
+  endDate = DEFAULT_END_DATE,
   includeHourly = false,
 }: GetParams): Promise<Results> {
   const city = CITY_MAPPING[cityName];
